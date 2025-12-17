@@ -1,5 +1,5 @@
 # Movie Search Engine
-This is a simple front-end application built with React and Vite that allows users to search for movies from a predefined list. The search results are displayed in real-time as the user types into the search bar.
+This is a simple front-end application built with React and Vite that allows users to search for movies from a predefined list, I'll be making the movie list dynamic as the project proceeds. The search results are displayed in real-time as the user types into the search bar.
 
 ## Features
 
