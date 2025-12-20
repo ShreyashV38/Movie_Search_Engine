@@ -1,13 +1,31 @@
 import MovieCard from "../components/MovieCard"
-import { useState } from "react"
+import { useState ,useEffect} from "react"
 import "../css/Home.css"
+import { searchMovies,getPopularMovies } from "../services/api.js"
 function Home(){
-    const movies=[
-        {id: 1,title:"Don 1",release_date:"2012"},
-        {id: 2,title:"Don 2",release_date:"2012"},
-        {id: 3,title:"Don 3",release_date:"2012"},
-        {id: 4,title:"Don 4",release_date:"2012"}
-    ]
+    //using state to store the movies fetched from the API
+    const [searchQuery,setSearchQuery]= useState("")
+    const [movies,setMovies]=useState([])
+    const [error, setError] =  useState(null)
+    const [loading,setLoading]= useState(true)
+
+    useEffect(()=>{
+        const loadPopularMovies= async ()=>{
+            try {
+                const popularMovies= await getPopularMovies();
+                setMovies(popularMovies)
+            }
+            catch (err){
+                console.log(err)
+                setError("Failed to load movies......")
+            }
+            finally{
+                setLoading(false)
+            }
+        }
+
+        loadPopularMovies();
+    },[])
 
     const handleSearch = (e)=>{
         e.preventDefault()
@@ -15,14 +33,11 @@ function Home(){
         setSearchQuery("")
     }
 
-    //using state :<
-
-const [searchQuery,setSearchQuery]= useState("")
 
 
     return(
         <div className="home">
-            <form className="search" onSubmit={handleSearch}>
+            <form className="search-form" onSubmit={handleSearch}>
                 <input type="text" 
                 placeholder="Search for movies.." className="search-input"
                 value={searchQuery}
@@ -32,6 +47,11 @@ const [searchQuery,setSearchQuery]= useState("")
 
             </form>
 
+                {error && <div className="error-message"></div>}
+
+            { loading ? (
+                <div className="Loading">Loading....</div>
+            ) : (
             <div className="movies-grid">
 
                 {movies.map((movie) => 
@@ -39,7 +59,9 @@ const [searchQuery,setSearchQuery]= useState("")
                 )
                 )}
 
-            </div>
+            </div>)
+            }
+            
         </div>
     )
 }
