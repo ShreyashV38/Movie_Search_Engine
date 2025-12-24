@@ -24,7 +24,7 @@ export const MovieProvider=({children})=>{
         setFavorites(prev =>[...prev,movie])
 
     }
-    const isFavorite= (movie)=>{
+    const isFavorite= (movieId)=>{
         return favorites.some(movie=> movie.id === movieId)
     }
 
